@@ -1,4 +1,4 @@
-import java.util.Collections;
+package connectfourmodel;
 
 public class Game {
     private Player[] players = new Player[2];

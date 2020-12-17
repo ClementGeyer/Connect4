@@ -1,4 +1,5 @@
-import java.awt.*;
+package connectfourmodel;
+
 import java.util.ArrayList;
 
 public class Player {

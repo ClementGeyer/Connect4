@@ -1,3 +1,8 @@
+package connectfourcontroller;
+
+import connectfourmodel.Game;
+import connectfourmodel.Piece;
+
 public class ConnectFourController extends TemplateController
 {
     public ConnectFourController(Game g)

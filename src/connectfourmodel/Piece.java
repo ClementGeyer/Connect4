@@ -1,3 +1,5 @@
+package connectfourmodel;
+
 public class Piece {
     private final Color color;
 

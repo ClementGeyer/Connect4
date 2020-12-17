@@ -1,3 +1,9 @@
+package connectfourcontroller;
+
+import connectfourmodel.Game;
+import connectfourmodel.Piece;
+import connectfourmodel.Player;
+
 public abstract class TemplateController
 {
     private Game game;

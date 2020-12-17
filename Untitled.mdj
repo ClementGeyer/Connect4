@@ -674,7 +674,7 @@
 											"top": 271,
 											"width": 151,
 											"height": 13,
-											"text": "TemplateController"
+											"text": "connectfourcontroller.TemplateController"
 										},
 										{
 											"_type": "LabelView",
@@ -3235,7 +3235,7 @@
 											"top": 463,
 											"width": 151,
 											"height": 13,
-											"text": "ConnectFourController"
+											"text": "connectfourcontroller.ConnectFourController"
 										},
 										{
 											"_type": "LabelView",
@@ -3772,7 +3772,7 @@
 											"top": 967,
 											"width": 119,
 											"height": 13,
-											"text": "Game"
+											"text": "connectfourmodel.Game"
 										},
 										{
 											"_type": "LabelView",
@@ -3951,7 +3951,7 @@
 											"top": 1279,
 											"width": 143,
 											"height": 13,
-											"text": "Player"
+											"text": "connectfourmodel.Player"
 										},
 										{
 											"_type": "LabelView",
@@ -5755,7 +5755,7 @@
 									"_parent": {
 										"$ref": "AAAAAAF2LTaKRMSoBiQ="
 									},
-									"name": "TemplateController",
+									"name": "connectfourcontroller.TemplateController",
 									"ownedElements": [
 										{
 											"_type": "UMLGeneralization",
@@ -5778,7 +5778,7 @@
 									"_parent": {
 										"$ref": "AAAAAAF2LTaKRMSoBiQ="
 									},
-									"name": "ConnectFourController",
+									"name": "connectfourcontroller.ConnectFourController",
 									"ownedElements": [
 										{
 											"_type": "UMLGeneralization",
@@ -6084,7 +6084,7 @@
 									"_parent": {
 										"$ref": "AAAAAAF2LTT5Mb1dqCQ="
 									},
-									"name": "Game",
+									"name": "connectfourmodel.Game",
 									"ownedElements": [
 										{
 											"_type": "UMLAssociation",
@@ -6211,7 +6211,7 @@
 									"_parent": {
 										"$ref": "AAAAAAF2LTT5Mb1dqCQ="
 									},
-									"name": "Player",
+									"name": "connectfourmodel.Player",
 									"ownedElements": [
 										{
 											"_type": "UMLAssociation",

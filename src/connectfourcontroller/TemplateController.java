@@ -1,23 +1,22 @@
 package connectfourcontroller;
 
 import connectfourmodel.Game;
-import connectfourmodel.Piece;
 import connectfourmodel.Player;
 
-public abstract class TemplateController
-{
+public abstract class TemplateController extends observer.Subject {
     private Game game;
 
     private Player currentPlayer;
 
     private boolean gameEnded;
 
-    public void play()
-    {
+    private int currentColumn;
+
+    public void play() {
 
     }
 
-    public abstract void insertPiece(Piece p, int column);
+    public abstract void insertPiece();
 
     public Game getGame() {
         return game;
@@ -41,5 +40,13 @@ public abstract class TemplateController
 
     public void setGameEnded(boolean gameEnded) {
         this.gameEnded = gameEnded;
+    }
+
+    public int getCurrentColumn() {
+        return currentColumn;
+    }
+
+    public void setCurrentColumn(int currentColumn) {
+        this.currentColumn = currentColumn;
     }
 }

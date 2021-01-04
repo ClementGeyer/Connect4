@@ -1,8 +1,8 @@
 package connectfourmodel;
 
 public class Game {
-    private Player[] players = new Player[2];
-    private Piece[][] grid = new Piece[7][6];
+    private final Player[] players = new Player[2];
+    private final Piece[][] grid = new Piece[7][6];
 
     public Game(String player1, String player2)
     {
@@ -100,8 +100,6 @@ public class Game {
         if(winner == null)
         {
             c = null;
-
-
         }
 
         return winner;

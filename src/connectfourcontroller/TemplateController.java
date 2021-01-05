@@ -16,7 +16,7 @@ public abstract class TemplateController extends observer.Subject {
 
     }
 
-    public abstract void insertPiece();
+    public abstract void insertCoin();
 
     public Game getGame() {
         return game;

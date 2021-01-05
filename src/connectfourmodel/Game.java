@@ -2,15 +2,26 @@ package connectfourmodel;
 
 public class Game {
     private final Player[] players = new Player[2];
-    private final Piece[][] grid = new Piece[7][6];
+    private final Coin[][] grid = new Coin[7][6];
+
+    private int currentLine;
 
     public Game(String player1, String player2)
     {
         players[0] = new Player(player1, Color.RED);
         players[1] = new Player(player2, Color.YELLOW);
+        setCurrentLine(grid[1].length);
     }
 
-    public void insertPiece(Piece p, int column) {
+    public int getCurrentLine(){
+        return this.currentLine;
+    }
+
+    public void setCurrentLine(int line){
+        this.currentLine = line;
+    }
+
+    public void insertCoin(int column) {
         //TODO Affichage erreur utilisateur
         if(grid[0][column] != null)
             System.out.println("La colonne sélectionnée est pleine !");
@@ -19,7 +30,8 @@ public class Game {
         {
             if( grid[i][column] == null)
             {
-                grid[i-1][column] = p;
+                //TODO Enlever un coin au joueur courrant
+                //grid[i-1][column] = p;
                 break;
             }
         }
@@ -103,5 +115,9 @@ public class Game {
         }
 
         return winner;
+    }
+
+    public Coin[][] getGrid(){
+        return grid;
     }
 }

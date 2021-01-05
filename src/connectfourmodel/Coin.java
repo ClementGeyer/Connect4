@@ -1,9 +1,9 @@
 package connectfourmodel;
 
-public class Piece {
+public class Coin {
     private final Color color;
 
-    public Piece(Color color)
+    public Coin(Color color)
     {
         this.color = color;
     }
@@ -14,6 +14,6 @@ public class Piece {
 
     @Override
     public String toString() {
-        return color.name() + " piece";
+        return color.name() + " coin";
     }
 }

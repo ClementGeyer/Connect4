@@ -1,2 +1,0 @@
-composition + agrégation + méthodes + attributs
-composition => fait le new

@@ -10,11 +10,9 @@ public abstract class TemplateController extends observer.Subject {
 
     private boolean gameEnded;
 
-    private int currentColumn;
+    private int currentColumn = 4;
 
-    public void play() {
-
-    }
+    public abstract void play();
 
     public abstract void insertCoin();
 

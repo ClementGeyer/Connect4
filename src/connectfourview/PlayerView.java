@@ -22,7 +22,7 @@ public class PlayerView extends JFrame implements Observer {
 
     private ConnectFourController controller;
 
-    public PlayerView(ConnectFourController c){
+    public PlayerView(ConnectFourController c) {
         super("Connect4");
         this.controller = c;
         this.player = this.controller.getGame().getPlayer(0);
@@ -71,21 +71,21 @@ public class PlayerView extends JFrame implements Observer {
 
         JPanel pannelCenter = new JPanel(new BorderLayout());
         JPanel buttons = new JPanel(new GridLayout(1, 6));
-        for(int i = 0; i< 6; i++){
+        for (int i = 0; i < 6; i++) {
             JButton btn = new JButton("Insert coin");
             btn.setName(String.valueOf(i));
             buttons.add(btn);
             ALButtons.add(btn);
         }
         pannelCenter.add(buttons, BorderLayout.NORTH);
-        grid = new JPanel(new GridLayout(7,6));
-        for(int i = 0; i<42;i++){
+        grid = new JPanel(new GridLayout(7, 6));
+        for (int i = 0; i < 42; i++) {
             JPanel box = new JPanel();
-            box.setBorder(BorderFactory.createLineBorder(Color.BLACK,1));
+            box.setBorder(BorderFactory.createLineBorder(Color.BLACK, 1));
             grid.add(box);
         }
 
-        for(JButton btn : ALButtons){
+        for (JButton btn : ALButtons) {
             btn.addActionListener(new ActionListener() {
                 @Override
                 public void actionPerformed(ActionEvent e) {
@@ -104,33 +104,36 @@ public class PlayerView extends JFrame implements Observer {
         mainPannel.add(pannelCenter, BorderLayout.CENTER);
     }
 
-    public void placeACoin(int column, int line, Player p){
-        for(int i = 0; i<6; i++){
-            for(int j = 0; j<7;j++){
-                if(i == column && j == line){
-                    JPanel box = (JPanel) grid.getComponent((line * 6) + column);
-                    Color color;
-                    if(p.getColor().toString().equals("RED"))
-                        color = Color.RED;
-                    else
-                        color = Color.YELLOW;
-                    box.setBackground(color);
-                }
-            }
-        }
+    public void placeACoin(int column, int line, Player p) {
+        JPanel box = (JPanel) grid.getComponent((line * 6) + column);
+        Color color;
+        if (p.getColor().toString().equals("RED"))
+            color = Color.RED;
+        else
+            color = Color.YELLOW;
+        box.setBackground(color);
+
+        controller.play();
     }
 
-    public static void main(String[] args){
+    public static void main(String[] args) {
         Game g = new Game("clement", "gautier");
         ConnectFourController c = new ConnectFourController(g);
         PlayerView pv = new PlayerView(c);
+
+        // Premier joueur
+        c.setCurrentPlayer(c.getGame().getPlayer(0));
+        c.play();
     }
 
     @Override
     public void update() {
-        controller.setCurrentColumn(Integer.parseInt(currentButton.getName()));
+        //TODO currentButton.getName() -> exception au debut
+        controller.setCurrentColumn(Integer.parseInt("0"));
         controller.lineCheck();
+        //TODO Je pense pas que placeACoin doit etre appelé dabs Update
         placeACoin(controller.getCurrentColumn(), controller.getGame().getCurrentLine(), controller.getCurrentPlayer());
-        controller.setCurrentPlayer( controller.getCurrentPlayer() == controller.getGame().getPlayer(0) ? controller.getGame().getPlayer(1) : controller.getGame().getPlayer(0));
+        //TODO deja dans controleur ?!
+        controller.setCurrentPlayer(controller.getCurrentPlayer() == controller.getGame().getPlayer(0) ? controller.getGame().getPlayer(1) : controller.getGame().getPlayer(0));
     }
 }

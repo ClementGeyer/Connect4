@@ -19,6 +19,9 @@ public class PlayerView extends JFrame implements Observer {
 
     private ArrayList<JButton> ALButtons = new ArrayList<>();
     private JButton currentButton;
+    private JLabel gameInfos;
+    private JLabel playerCoins;
+    private JLabel playerTwoCoins;
 
     private ConnectFourController controller;
 
@@ -36,12 +39,12 @@ public class PlayerView extends JFrame implements Observer {
         this.setSize(width, height);
         this.setVisible(true);
 
-        JLabel gameInfos = new JLabel("Game Informations");
+        gameInfos = new JLabel("Au tour de " + controller.getGame().getPlayer(0).getName());
         gameInfos.setHorizontalAlignment(SwingConstants.CENTER);
 
         JLabel playerName = new JLabel(this.player.getName());
         playerName.setHorizontalAlignment(SwingConstants.CENTER);
-        JLabel playerCoins = new JLabel(Integer.toString(this.player.getCoins()));
+        playerCoins = new JLabel(Integer.toString(this.player.getCoins()));
         playerCoins.setText(String.valueOf(this.player.getCoins()));
         playerCoins.setHorizontalAlignment(SwingConstants.CENTER);
 
@@ -56,7 +59,7 @@ public class PlayerView extends JFrame implements Observer {
 
         JLabel playerTwoName = new JLabel(this.playerTwo.getName());
         playerTwoName.setHorizontalAlignment(SwingConstants.CENTER);
-        JLabel playerTwoCoins = new JLabel(Integer.toString(this.playerTwo.getCoins()));
+        playerTwoCoins = new JLabel(Integer.toString(this.playerTwo.getCoins()));
         playerTwoCoins.setText(String.valueOf(this.playerTwo.getCoins()));
         playerTwoCoins.setHorizontalAlignment(SwingConstants.CENTER);
 
@@ -71,24 +74,27 @@ public class PlayerView extends JFrame implements Observer {
 
         JPanel pannelCenter = new JPanel(new BorderLayout());
         JPanel buttons = new JPanel(new GridLayout(1, 6));
-        for (int i = 0; i < 6; i++) {
+        for (int i = 0; i < 7; i++) {
             JButton btn = new JButton("Insert coin");
             btn.setName(String.valueOf(i));
             buttons.add(btn);
             ALButtons.add(btn);
         }
         pannelCenter.add(buttons, BorderLayout.NORTH);
-        grid = new JPanel(new GridLayout(7, 6));
+        grid = new JPanel(new GridLayout(6, 7));
         for (int i = 0; i < 42; i++) {
             JPanel box = new JPanel();
             box.setBorder(BorderFactory.createLineBorder(Color.BLACK, 1));
+            JLabel txt = new JLabel(String.valueOf(i));
+            box.add(txt);
             grid.add(box);
         }
 
         for (JButton btn : ALButtons) {
             btn.addActionListener(e -> {
                 currentButton = btn;
-                placeACoin(controller.getCurrentColumn(), controller.getGame().getCurrentLine(), controller.getCurrentPlayer());
+                System.out.println("Button " + currentButton.getName());
+                placeACoin(controller.getCurrentPlayer());
             });
         }
 
@@ -101,17 +107,25 @@ public class PlayerView extends JFrame implements Observer {
         mainPannel.add(pannelCenter, BorderLayout.CENTER);
     }
 
-    public void placeACoin(int column, int line, Player p) {
+    public void placeACoin(Player p) {
         controller.setCurrentColumn(Integer.parseInt(currentButton.getName()));
-        /*JPanel box = (JPanel) grid.getComponent(((line * 6) + column)-1);
+        controller.play();
+        JPanel box = (JPanel) grid.getComponent(((controller.getGame().getCurrentLine() * 6) + controller.getGame().getCurrentColumn()) - (controller.getGame().getNumberToSubtract()));
         Color color;
         if (p.getColor().toString().equals("RED"))
             color = Color.RED;
         else
             color = Color.YELLOW;
-        box.setBackground(color);*/
-
-        controller.play();
+        box.setBackground(color);
+        if(controller.getGame().isCurrentColumnFull()){
+            currentButton.setEnabled(false);
+        }
+        gameInfos.setText("Au tour de " + controller.getCurrentPlayer().getName());
+        //TODO bug affichage des coins
+        if(controller.getCurrentPlayer() == controller.getGame().getPlayer(0))
+            playerCoins.setText(String.valueOf(controller.getCurrentPlayer().getCoins()));
+        else
+            playerTwoCoins.setText(String.valueOf(controller.getCurrentPlayer().getCoins()));
     }
 
     public static void main(String[] args) {
@@ -125,7 +139,6 @@ public class PlayerView extends JFrame implements Observer {
 
     @Override
     public void update() {
-        controller.lineCheck();
-        controller.setCurrentPlayer(controller.getCurrentPlayer() == controller.getGame().getPlayer(0) ? controller.getGame().getPlayer(1) : controller.getGame().getPlayer(0));
+        //TODO dire au joueur que c'est a lui de jouer
     }
 }

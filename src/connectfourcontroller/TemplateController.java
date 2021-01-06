@@ -10,7 +10,7 @@ public abstract class TemplateController extends observer.Subject {
 
     private boolean gameEnded;
 
-    private int currentColumn = 4;
+    private int currentColumn = 0;
 
     public abstract void play();
 

@@ -4,9 +4,13 @@ import java.util.ArrayList;
 
 public class Player {
 
-    public int coinsCount = 20;
-    public String name;
-    public Color color;
+    public void setCoinsCount(int coinsCount) {
+        this.coinsCount = coinsCount;
+    }
+
+    private int coinsCount = 20;
+    private String name;
+    private Color color;
 
     public Player(String name, Color c) {
         this.color = c;

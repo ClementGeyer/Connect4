@@ -86,12 +86,9 @@ public class PlayerView extends JFrame implements Observer {
         }
 
         for (JButton btn : ALButtons) {
-            btn.addActionListener(new ActionListener() {
-                @Override
-                public void actionPerformed(ActionEvent e) {
-                    currentButton = btn;
-                    update();
-                }
+            btn.addActionListener(e -> {
+                currentButton = btn;
+                placeACoin(controller.getCurrentColumn(), controller.getGame().getCurrentLine(), controller.getCurrentPlayer());
             });
         }
 
@@ -105,13 +102,14 @@ public class PlayerView extends JFrame implements Observer {
     }
 
     public void placeACoin(int column, int line, Player p) {
-        JPanel box = (JPanel) grid.getComponent((line * 6) + column);
+        controller.setCurrentColumn(Integer.parseInt(currentButton.getName()));
+        /*JPanel box = (JPanel) grid.getComponent(((line * 6) + column)-1);
         Color color;
         if (p.getColor().toString().equals("RED"))
             color = Color.RED;
         else
             color = Color.YELLOW;
-        box.setBackground(color);
+        box.setBackground(color);*/
 
         controller.play();
     }
@@ -123,17 +121,11 @@ public class PlayerView extends JFrame implements Observer {
 
         // Premier joueur
         c.setCurrentPlayer(c.getGame().getPlayer(0));
-        c.play();
     }
 
     @Override
     public void update() {
-        //TODO currentButton.getName() -> exception au debut
-        controller.setCurrentColumn(Integer.parseInt("0"));
         controller.lineCheck();
-        //TODO Je pense pas que placeACoin doit etre appelé dabs Update
-        placeACoin(controller.getCurrentColumn(), controller.getGame().getCurrentLine(), controller.getCurrentPlayer());
-        //TODO deja dans controleur ?!
         controller.setCurrentPlayer(controller.getCurrentPlayer() == controller.getGame().getPlayer(0) ? controller.getGame().getPlayer(1) : controller.getGame().getPlayer(0));
     }
 }

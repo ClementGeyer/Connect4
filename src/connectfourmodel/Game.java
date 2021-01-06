@@ -22,8 +22,7 @@ public class Game {
         this.currentLine = line;
     }
 
-    public void insertCoin(int column) {
-        //TODO Affichage erreur utilisateur
+    public void insertCoin(int column, Color c) {
         if(grid[0][column] != null)
             System.out.println("La colonne sélectionnée est pleine !");
 
@@ -31,8 +30,7 @@ public class Game {
         {
             if( grid[i][column] == null)
             {
-                //grid[i-1][column] = p;
-                //TODO place coin
+                grid[i][column] = new Coin(c);
                 break;
             }
         }

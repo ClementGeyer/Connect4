@@ -17,12 +17,9 @@ public class ConnectFourController extends TemplateController
     @Override
     public void play()
     {
-        // main: setCurrentPlayer(getGame().getPlayer(0));
 
         getCurrentPlayer().play();
         insertCoin();
-
-        // playCoin dans vue va setCarteCourante & appeler play()
 
         if(getGame().winner() == null || getCurrentPlayer().getCoins() > 0)
         {
@@ -32,6 +29,17 @@ public class ConnectFourController extends TemplateController
         {
             setGameEnded(true);
         }
+
+        for(int i=0; i<getGame().getGrid()[1].length; ++i)
+        {
+            for (int j = 0; j < getGame().getGrid().length; ++j)
+            {
+               System.out.print(" " + getGame().getGrid()[j][i]);
+            }
+            System.out.println();
+            System.out.println();
+        }
+        System.out.println("----------------------------------");
 
         notifyObservers();
     }
@@ -49,6 +57,6 @@ public class ConnectFourController extends TemplateController
     @Override
     public void insertCoin()
     {
-        getGame().insertCoin(getCurrentColumn());
+        getGame().insertCoin(getCurrentColumn(), getCurrentPlayer().getColor());
     }
 }

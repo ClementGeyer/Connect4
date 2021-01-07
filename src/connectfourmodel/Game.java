@@ -43,7 +43,6 @@ public class Game {
     }
 
     public void insertCoin(int column, Color c) {
-        //TODO PQ ??
         currentColumnFull = grid[1][column] != null;
 
         for (int i = grid.length - 1; i >= 0; --i) {
@@ -51,7 +50,6 @@ public class Game {
                 grid[i][column] = new Coin(c);
 
                 currentLine = i + 1;
-                //TODO inutile
                 currentColumn = column;
                 switch (currentLine) {
                     case 1:
@@ -185,56 +183,6 @@ public class Game {
 
         // No connection detected
         return null;
-        
-        /*Player winner = null;
-        Color c = null;
-        int piecesInARow = 0;
-        for (int i = 0; i < grid[1].length; ++i) {
-            for (int j = 0; j < grid.length; ++j) {
-                if (grid[j][i] != null) {
-                    if (c == grid[j][i].getColor()) {
-                        piecesInARow++;
-                    } else {
-                        c = grid[j][i].getColor();
-                        piecesInARow = 1;
-                    }
-                    System.out.println("B: " + piecesInARow);
-                }
-
-                if (piecesInARow >= coinsRowToWin) {
-                    winner = c == getPlayer(0).getColor() ? getPlayer(0) : getPlayer(1);
-                    break;
-                }
-            }
-        }
-
-        if (winner == null) {
-            c = null;
-
-            for (int i = 0; i < grid.length; ++i) {
-                for (int j = 0; j < grid[1].length; ++j) {
-                    if (grid[i][j] != null) {
-                        if (c == grid[i][j].getColor()) {
-                            piecesInARow++;
-                        } else {
-                            c = grid[i][j].getColor();
-                            piecesInARow = 1;
-                        }
-                    }
-
-                    if (piecesInARow >= coinsRowToWin) {
-                        winner = c == getPlayer(0).getColor() ? getPlayer(0) : getPlayer(1);
-                        break;
-                    }
-                }
-            }
-        }
-
-        //TODO diagonal
-        if (winner == null) {
-            c = null;
-        }
-        return winner;*/
     }
 
     public int getCoinsRowToWin() {

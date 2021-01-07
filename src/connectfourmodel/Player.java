@@ -4,11 +4,7 @@ import java.util.ArrayList;
 
 public class Player {
 
-    public void setCoinsCount(int coinsCount) {
-        this.coinsCount = coinsCount;
-    }
-
-    private int coinsCount = 20;
+    private int coinsCount = 21;
     private String name;
     private Color color;
 
@@ -26,6 +22,10 @@ public class Player {
     }
 
     public int getCoins() { return coinsCount; }
+    
+    public void setCoinsCount(int coinsCount) {
+        this.coinsCount = coinsCount;
+    }
 
     public Color getColor() { return color; }
 

@@ -1,8 +1,11 @@
 package connectfourview;
 
 import connectfourcontroller.ConnectFourController;
+import connectfourcontroller.TemplateController;
+import connectfourmodel.FiveInRow;
 import connectfourmodel.Game;
 import connectfourmodel.Player;
+import connectfourmodel.PopOut;
 import observer.Observer;
 
 import javax.swing.*;
@@ -110,9 +113,20 @@ public class PlayerView extends JFrame implements Observer {
     public void placeACoin(Player p) {
         controller.setCurrentColumn(Integer.parseInt(currentButton.getName()));
         controller.play();
+    }
+
+    public void popOutACoin()
+    {
+        controller.setCurrentColumn(Integer.parseInt(currentButton.getName()));
+        controller.playPopOut();
+    }
+
+    @Override
+    public void update() {
+        //TODO dire au joueur que c'est a lui de jouer-
         JPanel box = (JPanel) grid.getComponent(((controller.getGame().getCurrentLine() * 6) + controller.getGame().getCurrentColumn()) - (controller.getGame().getNumberToSubtract()));
         Color color;
-        if (p.getColor().toString().equals("RED"))
+        if (controller.getCurrentPlayer().getColor().toString().equals("RED"))
             color = Color.RED;
         else
             color = Color.YELLOW;
@@ -121,16 +135,37 @@ public class PlayerView extends JFrame implements Observer {
         if(controller.getGame().isCurrentColumnFull()){
             currentButton.setEnabled(false);
         }
-        gameInfos.setText("Au tour de " + controller.getCurrentPlayer().getName());
+        gameInfos.setText("Au tour de " + (controller.getCurrentPlayer() == controller.getGame().getPlayer(0) ? controller.getGame().getPlayer(1).getName() : controller.getGame().getPlayer(0).getName()));
         //TODO bug affichage des coins
-        if(controller.getCurrentPlayer() == controller.getGame().getPlayer(0))
-            playerCoins.setText(String.valueOf(controller.getCurrentPlayer().getCoins()));
-        else
-            playerTwoCoins.setText(String.valueOf(controller.getCurrentPlayer().getCoins()));
+            playerCoins.setText(String.valueOf(controller.getGame().getPlayer(0).getCoins()));
+            playerTwoCoins.setText(String.valueOf(controller.getGame().getPlayer(1).getCoins()));
     }
 
 
     public static void main(String[] args) {
+        connectFourBase();
+        /*if(args.length > 1)
+        {
+            System.out.println("Usage: java connectFour base/fiveInRow/popOut");
+            System.exit(1);
+        }
+        else if(args.length == 0 || args[0] == "base")
+        {
+            connectFourBase();
+        }
+        else if(args[0] == "fiveInRow")
+        {
+            connectFourFiveInRow();
+        }
+        else if (args[0] == "popOut")
+        {
+
+        }*/
+
+    }
+
+    static void connectFourBase()
+    {
         Game g = new Game("clement", "gautier");
         ConnectFourController c = new ConnectFourController(g);
         PlayerView pv = new PlayerView(c);
@@ -141,8 +176,24 @@ public class PlayerView extends JFrame implements Observer {
         //TODO Args pour select mode + si pas d'arg mode de base
     }
 
-    @Override
-    public void update() {
-        //TODO dire au joueur que c'est a lui de jouer
+    static void connectFourFiveInRow()
+    {
+        //TODO passer la hauteur/longueur de la grille en parametre
+        FiveInRow fg = new FiveInRow("Clément", "Gautier");
+        ConnectFourController c = new ConnectFourController(fg);
+        PlayerView pv = new PlayerView(c);
+
+        // Premier joueur
+        c.setCurrentPlayer(c.getGame().getPlayer(0));
+    }
+
+    static void connectFourPopOut()
+    {
+        PopOut po = new PopOut("Clément", "Gautier");
+        ConnectFourController c = new ConnectFourController(po);
+        PlayerView pv = new PlayerView(c);
+
+        // Premier joueur
+        c.setCurrentPlayer(c.getGame().getPlayer(0));
     }
 }

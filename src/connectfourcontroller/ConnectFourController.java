@@ -3,6 +3,7 @@ package connectfourcontroller;
 import connectfourmodel.Coin;
 import connectfourmodel.Color;
 import connectfourmodel.Game;
+import connectfourmodel.PopOut;
 
 import java.util.Arrays;
 
@@ -21,12 +22,26 @@ public class ConnectFourController extends TemplateController
         getCurrentPlayer().play();
         insertCoin();
 
+        notifyObservers();
+
         if(getGame().winner() == null && getCurrentPlayer().getCoins() > 0)
         {
             setCurrentPlayer( getCurrentPlayer() == getGame().getPlayer(0) ? getGame().getPlayer(1) : getGame().getPlayer(0));
         }
         else
         {
+            setGameEnded(true);
+            System.out.println("fini");
+        }
+    }
+
+    public void playPopOut()
+    {
+        popOutCoin();
+
+        if (getGame().winner() == null && getCurrentPlayer().getCoins() > 0) {
+            setCurrentPlayer(getCurrentPlayer() == getGame().getPlayer(0) ? getGame().getPlayer(1) : getGame().getPlayer(0));
+        } else {
             setGameEnded(true);
             System.out.println("fini");
         }
@@ -63,5 +78,9 @@ public class ConnectFourController extends TemplateController
     public void insertCoin()
     {
         getGame().insertCoin(getCurrentColumn(), getCurrentPlayer().getColor());
+    }
+
+    public void popOutCoin() {
+        ((PopOut) getGame()).popOutCoin(getCurrentColumn(), getCurrentPlayer().getColor());
     }
 }

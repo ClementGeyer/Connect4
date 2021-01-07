@@ -7,10 +7,12 @@ public class FiveInRow extends Game
         super(player1, player2);
         initializeGrid(6,9);
         setCoinsRowToWin(5);
+        fillGrid();
     }
 
     private void fillGrid()
     {
+        //TODO colorier les cases dans la vue mais jsp comment faire
         for(int i=0; i<getGrid().length; ++i)
         {
             if(i % 2 == 0)

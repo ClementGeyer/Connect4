@@ -2,6 +2,12 @@ package connectfourmodel;
 
 public class PopOut extends Game
 {
+
+    @Override
+    public String getType() {
+        return "popout";
+    }
+
     public PopOut(String player1, String player2) {
         super(player1, player2);
     }

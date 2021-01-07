@@ -20,7 +20,10 @@ public class PlayerView extends JFrame implements Observer {
     private Player playerTwo;
     private JPanel grid;
 
-    private ArrayList<JButton> ALButtons = new ArrayList<>();
+    private boolean popout = false;
+
+    private ArrayList<JButton> ALButtonsInsert = new ArrayList<>();
+    private ArrayList<JButton> ALButtonsPopOut = new ArrayList<>();
     private JButton currentButton;
     private JLabel gameInfos;
     private JLabel playerCoins;
@@ -37,7 +40,7 @@ public class PlayerView extends JFrame implements Observer {
         this.controller.addObserver(this);
 
         this.setDefaultCloseOperation(EXIT_ON_CLOSE);
-        int width = 446, height = 306;
+        int width = 900, height = 500;
         this.setLocation(width, height);
         this.setSize(width, height);
         this.setVisible(true);
@@ -76,14 +79,14 @@ public class PlayerView extends JFrame implements Observer {
         pannelEast.add(playerTwoCoins, BorderLayout.SOUTH);
 
         JPanel pannelCenter = new JPanel(new BorderLayout());
-        JPanel buttons = new JPanel(new GridLayout(1, 6));
+        JPanel buttonsInsert = new JPanel(new GridLayout(1, 6));
         for (int i = 0; i < 7; i++) {
             JButton btn = new JButton("Insert coin");
             btn.setName(String.valueOf(i));
-            buttons.add(btn);
-            ALButtons.add(btn);
+            buttonsInsert.add(btn);
+            ALButtonsInsert.add(btn);
         }
-        pannelCenter.add(buttons, BorderLayout.NORTH);
+        pannelCenter.add(buttonsInsert, BorderLayout.NORTH);
         grid = new JPanel(new GridLayout(6, 7));
         for (int i = 0; i < 42; i++) {
             JPanel box = new JPanel();
@@ -93,12 +96,32 @@ public class PlayerView extends JFrame implements Observer {
             grid.add(box);
         }
 
-        for (JButton btn : ALButtons) {
+        for (JButton btn : ALButtonsInsert) {
             btn.addActionListener(e -> {
                 currentButton = btn;
-                System.out.println("Button " + currentButton.getName());
-                placeACoin(controller.getCurrentPlayer());
+                popout = false;
+                placeACoin();
             });
+        }
+
+        if(controller.getGame().getType().equals("popout")){
+            JPanel buttonsPopOut = new JPanel(new GridLayout(1, 6));
+            for(int i = 0; i< 7;i++){
+                JButton btn = new JButton("Pop out");
+                btn.setName(String.valueOf(i));
+                btn.setEnabled(false);
+                buttonsPopOut.add(btn);
+                ALButtonsPopOut.add(btn);
+            }
+            pannelCenter.add(buttonsPopOut, BorderLayout.SOUTH);
+
+            for (JButton btn : ALButtonsPopOut) {
+                btn.addActionListener(e -> {
+                    currentButton = btn;
+                    popout = true;
+                    popOutACoin();
+                });
+            }
         }
 
         pannelCenter.add(grid, BorderLayout.CENTER);
@@ -110,7 +133,7 @@ public class PlayerView extends JFrame implements Observer {
         mainPannel.add(pannelCenter, BorderLayout.CENTER);
     }
 
-    public void placeACoin(Player p) {
+    public void placeACoin() {
         controller.setCurrentColumn(Integer.parseInt(currentButton.getName()));
         controller.play();
     }
@@ -123,27 +146,56 @@ public class PlayerView extends JFrame implements Observer {
 
     @Override
     public void update() {
-        //TODO dire au joueur que c'est a lui de jouer-
-        JPanel box = (JPanel) grid.getComponent(((controller.getGame().getCurrentLine() * 6) + controller.getGame().getCurrentColumn()) - (controller.getGame().getNumberToSubtract()));
-        Color color;
-        if (controller.getCurrentPlayer().getColor().toString().equals("RED"))
-            color = Color.RED;
-        else
-            color = Color.YELLOW;
-        //TODO color = p.getColor() ???
-        box.setBackground(color);
-        if(controller.getGame().isCurrentColumnFull()){
-            currentButton.setEnabled(false);
+        if(controller.isGameEnded()){
+            for(JButton btn : ALButtonsInsert)
+                btn.setEnabled(false);
+            gameInfos.setText(controller.getCurrentPlayer().getName() + " a gagné la partie");
         }
-        gameInfos.setText("Au tour de " + (controller.getCurrentPlayer() == controller.getGame().getPlayer(0) ? controller.getGame().getPlayer(1).getName() : controller.getGame().getPlayer(0).getName()));
-        //TODO bug affichage des coins
+        else{
+            if(popout){
+                for(int i = 0; i<7;i++){
+                    if(controller.getGame().getGrid()[controller.getGame().getGrid().length - 1][i] != null) {
+                        if (controller.getGame().getGrid()[controller.getGame().getGrid().length - 1][i].getColor() != controller.getCurrentPlayer().getColor())
+                            ALButtonsPopOut.get(i).setEnabled(false);
+                    }
+                    else
+                        ALButtonsPopOut.get(i).setEnabled(false);
+                }
+                System.out.println(controller.getGame().getCurrentColumn());
+                System.out.println(controller.getGame().getNumberToSubtract());
+                System.out.println(35 + controller.getGame().getCurrentColumn() - controller.getGame().getNumberToSubtract());
+                JPanel box = (JPanel) grid.getComponent(35 + controller.getGame().getCurrentColumn() - controller.getGame().getNumberToSubtract());
+                box.setBackground(Color.WHITE);
+            }
+            else{
+                JPanel box = (JPanel) grid.getComponent(((controller.getGame().getCurrentLine() * 6) + controller.getGame().getCurrentColumn()) - (controller.getGame().getNumberToSubtract()));
+                Color color;
+                if (controller.getCurrentPlayer().getColor().toString().equals("RED"))
+                    color = Color.RED;
+                else
+                    color = Color.YELLOW;
+                box.setBackground(color);
+                if(controller.getGame().isCurrentColumnFull()){
+                    currentButton.setEnabled(false);
+                }
+                if(controller.getGame().getType().equals("popout")){
+                    for(int i = 0; i<7;i++){
+                        if(controller.getGame().getGrid()[controller.getGame().getGrid().length - 1][i] == null || controller.getGame().getGrid()[controller.getGame().getGrid().length - 1][i].getColor() == controller.getCurrentPlayer().getColor())
+                            ALButtonsPopOut.get(i).setEnabled(false);
+                        else
+                            ALButtonsPopOut.get(i).setEnabled(true);
+                    }
+                }
+            }
+            gameInfos.setText("Au tour de " + (controller.getCurrentPlayer() == controller.getGame().getPlayer(0) ? controller.getGame().getPlayer(1).getName() : controller.getGame().getPlayer(0).getName()));
             playerCoins.setText(String.valueOf(controller.getGame().getPlayer(0).getCoins()));
             playerTwoCoins.setText(String.valueOf(controller.getGame().getPlayer(1).getCoins()));
+        }
     }
 
 
     public static void main(String[] args) {
-        connectFourBase();
+        connectFourPopOut();
         /*if(args.length > 1)
         {
             System.out.println("Usage: java connectFour base/fiveInRow/popOut");

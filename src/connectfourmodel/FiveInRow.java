@@ -2,6 +2,11 @@ package connectfourmodel;
 
 public class FiveInRow extends Game
 {
+    @Override
+    public String getType() {
+        return "fiveinarow";
+    }
+
     public FiveInRow(String player1, String player2)
     {
         super(player1, player2);

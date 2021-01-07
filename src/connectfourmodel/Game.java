@@ -6,6 +6,10 @@ public class Game {
     private Coin[][] grid;
     private int currentLine;
 
+    public String getType() {
+        return "classic";
+    }
+
     public boolean isCurrentColumnFull() {
         return currentColumnFull;
     }

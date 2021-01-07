@@ -21,7 +21,7 @@ public class ConnectFourController extends TemplateController
         getCurrentPlayer().play();
         insertCoin();
 
-        if(getGame().winner() == null || getCurrentPlayer().getCoins() > 0)
+        if(getGame().winner() == null && getCurrentPlayer().getCoins() > 0)
         {
             setCurrentPlayer( getCurrentPlayer() == getGame().getPlayer(0) ? getGame().getPlayer(1) : getGame().getPlayer(0));
         }
@@ -42,16 +42,6 @@ public class ConnectFourController extends TemplateController
         System.out.println("----------------------------------");
 
         notifyObservers();
-    }
-
-    public void lineCheck(){
-        Coin[][] grid = getGame().getGrid();
-        getGame().setCurrentLine(grid[1].length);
-        for(int i = 0;i<=grid[1].length;i++){
-            //if(grid[getGame().getCurrentLine()][getCurrentColumn()] == null)
-                //System.out.println(i);
-                //getGame().setCurrentLine(getGame().getCurrentLine() - 1);
-        }
     }
 
     @Override

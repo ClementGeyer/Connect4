@@ -28,7 +28,21 @@ public class ConnectFourController extends TemplateController
         else
         {
             setGameEnded(true);
+            System.out.println("fini");
         }
+
+        // Print Grid
+        /*
+        for(int i=0; i<getGame().getGrid()[1].length; ++i)
+        {
+            for (int j = 0; j < getGame().getGrid().length; ++j)
+            {
+               System.out.print(" " + getGame().getGrid()[j][i]);
+            }
+            System.out.println();
+            System.out.println();
+        }
+        System.out.println("----------------------------------");
 
         for(int i=0; i<getGame().getGrid()[1].length; ++i)
         {
@@ -40,6 +54,7 @@ public class ConnectFourController extends TemplateController
             System.out.println();
         }
         System.out.println("----------------------------------");
+         */
 
         notifyObservers();
     }

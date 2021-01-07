@@ -116,6 +116,7 @@ public class PlayerView extends JFrame implements Observer {
             color = Color.RED;
         else
             color = Color.YELLOW;
+        //TODO color = p.getColor() ???
         box.setBackground(color);
         if(controller.getGame().isCurrentColumnFull()){
             currentButton.setEnabled(false);
@@ -128,6 +129,7 @@ public class PlayerView extends JFrame implements Observer {
             playerTwoCoins.setText(String.valueOf(controller.getCurrentPlayer().getCoins()));
     }
 
+
     public static void main(String[] args) {
         Game g = new Game("clement", "gautier");
         ConnectFourController c = new ConnectFourController(g);
@@ -135,6 +137,8 @@ public class PlayerView extends JFrame implements Observer {
 
         // Premier joueur
         c.setCurrentPlayer(c.getGame().getPlayer(0));
+
+        //TODO Args pour select mode + si pas d'arg mode de base
     }
 
     @Override

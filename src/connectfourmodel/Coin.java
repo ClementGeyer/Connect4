@@ -14,6 +14,6 @@ public class Coin {
 
     @Override
     public String toString() {
-        return color.name() + " coin";
+        return color.name();
     }
 }

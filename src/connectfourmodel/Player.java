@@ -1,7 +1,5 @@
 package connectfourmodel;
 
-import java.util.ArrayList;
-
 public class Player {
 
     private int coinsCount = 21;

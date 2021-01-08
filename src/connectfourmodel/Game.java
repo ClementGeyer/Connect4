@@ -16,8 +16,6 @@ public class Game {
 
     private boolean currentColumnFull = false;
 
-    private int numberToSubtract;
-
     public int getCurrentColumn() {
         return currentColumn;
     }

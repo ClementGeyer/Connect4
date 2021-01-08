@@ -79,18 +79,27 @@ public class PlayerView extends JFrame implements Observer {
         pannelEast.add(playerTwoCoins, BorderLayout.SOUTH);
 
         JPanel pannelCenter = new JPanel(new BorderLayout());
-        JPanel buttonsInsert = new JPanel(new GridLayout(1, 6));
-        for (int i = 0; i < 7; i++) {
+        JPanel buttonsInsert = new JPanel(new GridLayout(1, controller.getGame().getGrid()[0].length));
+        for (int i = 0; i < controller.getGame().getGrid()[0].length; i++) {
             JButton btn = new JButton("Insert coin");
             btn.setName(String.valueOf(i));
+            if(i > 6){
+                btn.setEnabled(false);
+            }
             buttonsInsert.add(btn);
             ALButtonsInsert.add(btn);
         }
         pannelCenter.add(buttonsInsert, BorderLayout.NORTH);
-        grid = new JPanel(new GridLayout(6, 7));
-        for (int i = 0; i < 42; i++) {
+        grid = new JPanel(new GridLayout(6, controller.getGame().getGrid()[0].length));
+        for (int i = 0; i < 6*controller.getGame().getGrid()[0].length; i++) {
             JPanel box = new JPanel();
             box.setBorder(BorderFactory.createLineBorder(Color.BLACK, 1));
+            if(controller.getGame().getType().equals("fiveinarow")){
+                if(i == 7 || i == 17 || i == 25 || i == 35 || i == 43 || i == 53)
+                    box.setBackground(Color.RED);
+                if(i == 8 || i == 16 || i == 26 || i == 34 || i == 44 || i == 52)
+                    box.setBackground(Color.YELLOW);
+            }
             JLabel txt = new JLabel(String.valueOf(i));
             box.add(txt);
             grid.add(box);
@@ -105,7 +114,7 @@ public class PlayerView extends JFrame implements Observer {
         }
 
         if(controller.getGame().getType().equals("popout")){
-            JPanel buttonsPopOut = new JPanel(new GridLayout(1, 6));
+            JPanel buttonsPopOut = new JPanel(new GridLayout(1, 7));
             for(int i = 0; i< 7;i++){
                 JButton btn = new JButton("Pop out");
                 btn.setName(String.valueOf(i));
@@ -161,14 +170,23 @@ public class PlayerView extends JFrame implements Observer {
                     else
                         ALButtonsPopOut.get(i).setEnabled(false);
                 }
-                System.out.println(controller.getGame().getCurrentColumn());
-                System.out.println(controller.getGame().getNumberToSubtract());
-                System.out.println(35 + controller.getGame().getCurrentColumn() - controller.getGame().getNumberToSubtract());
-                JPanel box = (JPanel) grid.getComponent(35 + controller.getGame().getCurrentColumn() - controller.getGame().getNumberToSubtract());
-                box.setBackground(Color.WHITE);
+                int current_case = controller.getCurrentColumn() + 35;
+                JPanel box = (JPanel) grid.getComponent(current_case);
+                //TODO Bug : ne prend pas en compte la ligne du haut
+                int previous_case = current_case - 7;
+                while(previous_case > 0){
+                    previous_case = current_case - 7;
+                    box.setBackground(grid.getComponent(previous_case).getBackground());
+                    box = (JPanel) grid.getComponent(previous_case);
+                    current_case = previous_case;
+                }
             }
             else{
-                JPanel box = (JPanel) grid.getComponent(((controller.getGame().getCurrentLine() * 6) + controller.getGame().getCurrentColumn()) - (controller.getGame().getNumberToSubtract()));
+                JPanel box;
+                if(controller.getGame().getType().equals("fiveinarow"))
+                    box = (JPanel) grid.getComponent(controller.getCurrentColumn() + (9 * (controller.getGame().getCurrentLine() - 1)));
+                else
+                    box = (JPanel) grid.getComponent(controller.getCurrentColumn() + (7 * (controller.getGame().getCurrentLine() - 1)));
                 Color color;
                 if (controller.getCurrentPlayer().getColor().toString().equals("RED"))
                     color = Color.RED;
@@ -180,10 +198,7 @@ public class PlayerView extends JFrame implements Observer {
                 }
                 if(controller.getGame().getType().equals("popout")){
                     for(int i = 0; i<7;i++){
-                        if(controller.getGame().getGrid()[controller.getGame().getGrid().length - 1][i] == null || controller.getGame().getGrid()[controller.getGame().getGrid().length - 1][i].getColor() == controller.getCurrentPlayer().getColor())
-                            ALButtonsPopOut.get(i).setEnabled(false);
-                        else
-                            ALButtonsPopOut.get(i).setEnabled(true);
+                        ALButtonsPopOut.get(i).setEnabled(controller.getGame().getGrid()[controller.getGame().getGrid().length - 1][i] != null && controller.getGame().getGrid()[controller.getGame().getGrid().length - 1][i].getColor() != controller.getCurrentPlayer().getColor());
                     }
                 }
             }

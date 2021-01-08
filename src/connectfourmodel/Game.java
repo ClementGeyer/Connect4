@@ -4,7 +4,7 @@ public class Game {
     private final Player[] players = new Player[2];
     private int coinsRowToWin = 4;
     private Coin[][] grid;
-    private int currentLine;
+    private int currentLine = 6;
 
     public String getType() {
         return "classic";
@@ -15,14 +15,6 @@ public class Game {
     }
 
     private boolean currentColumnFull = false;
-
-    public int getNumberToSubtract() {
-        return numberToSubtract;
-    }
-
-    public void setNumberToSubtract(int numberToSubtract) {
-        this.numberToSubtract = numberToSubtract;
-    }
 
     private int numberToSubtract;
 
@@ -42,10 +34,6 @@ public class Game {
         return this.currentLine;
     }
 
-    public void setCurrentLine(int line) {
-        this.currentLine = line;
-    }
-
     public void insertCoin(int column, Color c) {
         currentColumnFull = grid[1][column] != null;
 
@@ -55,26 +43,6 @@ public class Game {
 
                 currentLine = i + 1;
                 currentColumn = column;
-                switch (currentLine) {
-                    case 1:
-                        setNumberToSubtract(6);
-                        break;
-                    case 2:
-                        setNumberToSubtract(5);
-                        break;
-                    case 3:
-                        setNumberToSubtract(4);
-                        break;
-                    case 4:
-                        setNumberToSubtract(3);
-                        break;
-                    case 5:
-                        setNumberToSubtract(2);
-                        break;
-                    case 6:
-                        setNumberToSubtract(1);
-                        break;
-                }
                 break;
             }
         }
